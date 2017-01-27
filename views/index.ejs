@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link data-require="semantic-ui@*" data-semver="2.1.8" rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.css" />
+  </head>
+
+  <body ng-controller="appController">
+
+    <div ng-view class="page-center"></div>
+    <div class="grey-bg"></div>
+
+    <!-- Libraries -->
+    <script data-require="jquery@*" data-semver="3.0.0" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
+    <script data-require="semantic-ui@*" data-semver="2.1.8" src="https://cdn.jsdelivr.net/semantic-ui/2.1.8/semantic.min.js"></script>
+    <script data-require="angular.js@1.5.x" src="https://code.angularjs.org/1.5.8/angular.js" data-semver="1.5.8"></script>
+    <script data-require="angular-route@*" data-semver="1.5.8" src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
+    <script data-require="angular-resource@*" data-semver="1.4.8" src="https://code.angularjs.org/1.4.8/angular-resource.js"></script>
+
+    <!-- Templates -->
+    <script type="text/ng-template" id="/complaints.html">
+      <div class="ui divider invisible"></div>
+
+      <div class="center-table">
+        <div class="ui menu inverted blue">
+          <div class="header item">
+            Hostel Complaints
+          </div>
+
+          <div class="right menu">
+            <a href="#/new" class="item">
+              <i class="write icon"></i> Post Complaint
+            </a>
+            <div class="item">
+              <div class="ui transparent icon input inverted">
+                <input ng-model="search" type="text" placeholder="Search">
+                <i class="search link icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui divider invisible"></div>
+
+      <div class="center-table">
+        <table class="ui celled unstackable blue table">
+          <thead>
+            <tr>
+              <th class="two wide">Date</th>
+              <th class="two wide">Submitted By</th>
+              <th class="one wide">Room</th>
+              <th class="one wide">Category</th>
+              <th class="eight wide">Complaint</th>
+              <th class="two wide">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr ng-repeat="complaint in complaints | filter: search">
+              <td>{{complaint.date | date: mediumDate}}</td>
+              <td>{{complaint.name}}</td>
+              <td>{{complaint.room}}</td>
+              <td>{{complaint.category}}</td>
+              <td>{{complaint.description}}</td>
+              <td>{{complaint.status}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </script>
+
+    <script type="text/ng-template" id="/login.html">
+      <div class="ui middle aligned center aligned grid page-center">
+        <div class="column form-small">
+          <h2 class="ui blue header container">
+              Online Hostel Complaint Portal
+            </h2>
+          <form class="ui large form">
+            <div class="ui blue segment">
+              <div class="field">
+                <div class="ui left icon input"> <i class="user icon"></i>
+                  <input ng-model="newComplaint.name" type="text" placeholder="User name" /> </div>
+              </div>
+              <div class="field">
+                <select class="ui selection dropdown" ng-model="newComplaint.hostel" ng-options="x for x in hostels"> </select>
+              </div> <a href="#/complaints" class="ui fluid large blue submit button">Login</a> </div>
+          </form>
+        </div>
+      </div>
+      <script>
+      $('.ui.dropdown').dropdown();
+      </script>
+    </script>
+
+    <script type="text/ng-template" id="/new-complaint.html">
+      <div class="ui center aligned middle aligned grid page-center">
+        <div class="column form-large">
+          <h2 class="ui blue header container">
+              Post Complaint
+            </h2>
+          <form class="ui large form">
+            <div class="ui blue segment left-text extra-padding">
+
+              <div class="two fields">
+                <div class="field">
+                  <label>Room Number</label>
+                  <input ng-model="newComplaint.room" type="text" placeholder="Enter room number">
+                </div>
+                <div class="field">
+                  <label>Category</label>
+                  <select class="ui selection dropdown" ng-model="newComplaint.category" ng-options="x for x in categories">
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Description</label>
+                <textarea rows='6' ng-model="newComplaint.description"></textarea>
+              </div>
+              <div class="ui large button invisible">A</div>
+              <a href="#/complaints" ng-click="save()" class="ui large blue submit button right floated">Submit</a>
+              <a href="#/complaints" ng-click="clear()" class="ui large button right floated">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      <script>
+      $('.ui.dropdown').dropdown();
+      </script>
+    </script>
+
+    <!-- Javascript -->
+
+
+    <script src="/javascripts/app.js"></script>
+
+  </body>
+
+</html>
